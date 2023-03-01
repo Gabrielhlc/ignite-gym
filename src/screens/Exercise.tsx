@@ -33,7 +33,7 @@ export function Exercise() {
                 </TouchableOpacity>
 
                 <HStack justifyContent="space-between" mt={4} mb={8} alignItems="center">
-                    <Heading color="gray.100" fontSize="lg" flexShrink={1}> {/*em caso de texto grande, quebra linha sem influenciar outros elementos */}
+                    <Heading color="gray.100" fontFamily="heading" fontSize="lg" flexShrink={1}> {/*em caso de texto grande, quebra linha sem influenciar outros elementos */}
                         Puxada frontal
                     </Heading>
                     <HStack alignItems="center">
