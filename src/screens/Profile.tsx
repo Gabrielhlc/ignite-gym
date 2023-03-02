@@ -15,6 +15,7 @@ export function Profile() {
     const [photoIsLoading, setPhotoIsLoading] = useState(false);
     const [userPhoto, setUserPhoto] = useState('https://github.com/Gabrielhlc.png')
 
+
     const toast = useToast();
 
     async function handleUserPhotoSelect() {

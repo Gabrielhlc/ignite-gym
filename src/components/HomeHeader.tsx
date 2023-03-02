@@ -5,11 +5,18 @@ import { MaterialIcons } from '@expo/vector-icons'
 
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 
+import { useAuth } from "@hooks/useAuth";
+
 import { UserPhoto } from "./UserPhoto";
+
+import defaultUserPhotoImg from '@assets/userPhotoDefault.png';
 
 export function HomeHeader() {
 
+    const { user, signOut } = useAuth();
+
     const navigation = useNavigation<AppNavigatorRoutesProps>();
+
 
     function handleProfile() {
         navigation.navigate('profile')
@@ -20,7 +27,7 @@ export function HomeHeader() {
 
             <TouchableOpacity onPress={handleProfile}>
                 <UserPhoto
-                    source={{ uri: 'https://github.com/Gabrielhlc.png' }}
+                    source={user.avatar ? { uri: user.avatar } : defaultUserPhotoImg}
                     alt="Imagem do usuário"
                     size={16}
                     mr={4}
@@ -32,10 +39,10 @@ export function HomeHeader() {
                     Olá,
                 </Text>
                 <Heading color="gray.100" fontSize="md" fontFamily="heading">
-                    Gabriel
+                    {user.name}
                 </Heading>
             </VStack>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={signOut}>
                 <Icon
                     as={MaterialIcons}
                     name="logout"
