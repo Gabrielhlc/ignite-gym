@@ -1,6 +1,7 @@
 import { Platform } from 'react-native'
-import { useTheme } from 'native-base';
 import { createBottomTabNavigator, BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
+import { useTheme } from 'native-base';
+
 import { Home } from '@screens/Home';
 import { Exercise } from '@screens/Exercise';
 import { Profile } from '@screens/Profile';
@@ -12,7 +13,7 @@ import ProfileSvg from '@assets/profile.svg';
 
 type AppRoutes = {
     home: undefined;
-    exercise: undefined;
+    exercise: { exerciseId: string };
     profile: undefined;
     history: undefined;
 }
