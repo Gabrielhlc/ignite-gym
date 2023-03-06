@@ -5,6 +5,8 @@ import { MaterialIcons } from '@expo/vector-icons'
 
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 
+import { api } from "@services/api";
+
 import { useAuth } from "@hooks/useAuth";
 
 import { UserPhoto } from "./UserPhoto";
@@ -27,7 +29,11 @@ export function HomeHeader() {
 
             <TouchableOpacity onPress={handleProfile}>
                 <UserPhoto
-                    source={user.avatar ? { uri: user.avatar } : defaultUserPhotoImg}
+                    source={
+                        user.avatar ?
+                            { uri: `${api.defaults.baseURL}/avatar/${user.avatar}` }
+                            : defaultUserPhotoImg
+                    }
                     alt="Imagem do usuário"
                     size={16}
                     mr={4}
