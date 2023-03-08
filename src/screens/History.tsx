@@ -20,7 +20,6 @@ export function History() {
         try {
             setIsLoading(true);
             const response = await api.get('/history');
-            console.log(response.data[0])
             setExercises(response.data);
 
         } catch (error) {

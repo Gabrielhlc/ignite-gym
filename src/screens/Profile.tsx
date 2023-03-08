@@ -125,6 +125,7 @@ export function Profile() {
 
         } catch (error) {
             const isAppError = error instanceof AppError;
+            console.log(error)
             const title = isAppError ? error.message : 'Não foi possível atualizar os dados. Tente novamente mais tarde.'
 
             toast.show({

@@ -15,20 +15,20 @@ type APIInstanceProps = AxiosInstance & {
 }
 
 const api = axios.create({
-    baseURL: 'http://192.168.100.30:3333',
+    baseURL: 'http://192.168.0.31:3333',
 }) as APIInstanceProps;
 
 let failedQueued: Array<PromiseType> = [];
 let isRefreshing = false;
 
-api.registerInterceptTokenManager = singOut => {
+api.registerInterceptTokenManager = signOut => {
     const interceptTokenManager = api.interceptors.response.use((response) => response, async (requestError) => {
         if (requestError.response?.status === 401) {
             if (requestError.response.data?.message === 'token.expired' || requestError.response.data?.message === 'token.invalid') {
                 const { refresh_token } = await storageAuthTokenGet();
 
                 if (!refresh_token) {
-                    singOut();
+                    signOut();
                     return Promise.reject(requestError)
                 }
 
@@ -56,12 +56,27 @@ api.registerInterceptTokenManager = singOut => {
 
                         await storageAuthTokenSave({ token: data.token, refresh_token: data.refresh_token });
 
+                        if (originalRequestConfig.data) {
+                            originalRequestConfig.data = JSON.parse(originalRequestConfig.data);
+                        }
+
+                        originalRequestConfig.headers = { 'Authorization': `Bearer ${data.token}` };
+                        api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+
+                        failedQueued.forEach(request => {
+                            request.onSuccess(data.token);
+                        });
+
+                        console.log("TOKEN ATUALIZADO");
+
+                        resolve(api(originalRequestConfig));
+
                     } catch (error: any) {
                         failedQueued.forEach(request => {
                             request.onFailure(error);
                         })
 
-                        singOut();
+                        signOut();
                         reject(error);
                     } finally {
                         isRefreshing = false;
@@ -71,7 +86,7 @@ api.registerInterceptTokenManager = singOut => {
 
             }
 
-            singOut();
+            signOut();
 
         }
 
