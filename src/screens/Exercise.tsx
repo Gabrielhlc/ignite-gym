@@ -121,7 +121,7 @@ export function Exercise() {
             {isLoading ? <Loading /> :
                 <ScrollView>
                     <VStack p={8}>
-                        <Box rounded="lg" mb={3} overflow="hidden">
+                        <Box rounded="lg" mb={3} overflow="hidden"> {/* Tag adicional para arredondar o GIF*/}
                             <Image
                                 w="full"
                                 h={80}

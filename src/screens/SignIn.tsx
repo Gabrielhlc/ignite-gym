@@ -14,6 +14,8 @@ import LogoSvg from '@assets/logo.svg';
 
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
+import { tagUserInfoCreate } from '../notifications/notificationsTag';
+import { storageUserGet } from '@storage/storageUser';
 
 type FormData = {
     email: string;
@@ -34,7 +36,10 @@ export function SignIn() {
     async function handleSignIn({ email, password }: FormData) {
         try {
             setIsLoading(true);
-            await signIn(email, password)
+
+            await signIn(email, password);
+            const { name } = await storageUserGet();
+            tagUserInfoCreate(name, email);
         } catch (error) {
             const isAppError = error instanceof AppError;
             const title = isAppError ? error.message : 'Não foi possível entrar. Tente novamente mais tarde.';
